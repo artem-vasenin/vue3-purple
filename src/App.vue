@@ -1,24 +1,19 @@
 <script setup>
-import Btn from './components/Btn.vue'
 import Stat from './components/Stat.vue'
-import IconPoint from './icons/IconMapMarker.vue'
+import CitySelect from './components/CitySelect.vue';
 
 const data = [
     { label: 'Влажность', value: '90%' },
     { label: 'Осадки', value: '0%' },
     { label: 'Ветер', value: '3 м/ч' },
 ];
+const getCity = (city) => console.log(city);
 </script>
 
 <template>
   <main class="main">
-    <Btn>
-      <template #iconPrefix>
-        <IconPoint/>
-      </template>
-      Изменить город
-    </Btn>
     <Stat v-for="(i, idx) in data" :key="idx" v-bind="i"/>
+    <CitySelect @select-city="getCity" />
   </main>
 </template>
 
