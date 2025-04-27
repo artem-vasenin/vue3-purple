@@ -51,4 +51,7 @@ body {
     background: var(--color-bg);
     color: var(--color-white);
     font-family: Montserrat, sans-serif;
+    display: grid;
+    place-items: center;
+    min-height: 100vh;
 }
