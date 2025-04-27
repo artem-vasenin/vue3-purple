@@ -1,0 +1,54 @@
+/* reset css */
+html,body,p,ol,ul,li,dl,dt,dd,blockquote,figure,fieldset,legend,textarea,pre,iframe,hr,h1,h2,h3,h4,h5,h6 {
+    margin: 0;
+    padding: 0;
+}
+h1,h2,h3,h4,h5,h6 {
+    font-size: 100%;
+    font-weight: normal;
+}
+ul {
+    list-style: none;
+}
+button,input,select,textarea {
+    margin: 0;
+}
+html {
+    box-sizing: border-box;
+}
+*, *:before, *:after {
+    box-sizing: inherit;
+}
+img,embed,iframe,object,audio,video {
+    height: auto;
+    max-width: 100%;
+}
+iframe {
+    border: 0;
+}
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+td,th {
+    padding: 0;
+    text-align: left;
+}
+
+/* Variables */
+:root {
+    --color-white: #fff;
+    --color-black: #000;
+    --color-bg: #343D4B;
+    --color-card-bg: #272E37;
+    --color-main-bg: #222831;
+    --grad: linear-gradient(90.8deg, rgba(144, 217, 224, 0.9) 0.2%, rgba(84, 96, 230, 0.9) 100%);
+    --grad-invert: linear-gradient(256.33deg, rgba(144, 217, 224, 0.9) 9.04%, rgba(84, 96, 230, 0.9) 92.2%);
+}
+
+/* Global */
+body {
+    background: var(--color-bg);
+    color: var(--color-white);
+    font-family: Montserrat, sans-serif;
+}
