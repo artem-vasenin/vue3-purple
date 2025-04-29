@@ -1,5 +1,4 @@
 <script setup>
-// const { label, value } = defineProps(['label', 'value']);
 const { label = '---', value = '---' } = defineProps({
   label: String,
   value: String,

@@ -42,6 +42,7 @@ td,th {
     --color-bg: #343D4B;
     --color-card-bg: #272E37;
     --color-main-bg: #222831;
+    --color-input: #3F4958;
     --grad: linear-gradient(90.8deg, rgba(144, 217, 224, 0.9) 0.2%, rgba(84, 96, 230, 0.9) 100%);
     --grad-invert: linear-gradient(256.33deg, rgba(144, 217, 224, 0.9) 9.04%, rgba(84, 96, 230, 0.9) 92.2%);
 }
