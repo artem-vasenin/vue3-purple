@@ -2,6 +2,7 @@
 import {ref, onMounted} from 'vue';
 import Stat from './components/Stat.vue'
 import CitySelect from './components/CitySelect.vue';
+import IconSun from './icons/IconSun.vue';
 
 const data = ref(null);
 const city = ref('Тверь');
@@ -35,6 +36,7 @@ onMounted(() => {
 <template>
   <main class="main">
     {{city}}
+    <IconSun :size="20" />
     <Stat v-for="(i, idx) in data" :key="idx" v-bind="i"/>
     <CitySelect :value="city" @select-city="getCity"/>
   </main>
