@@ -10,7 +10,7 @@ const city = ref(props.value);
 const emit = defineEmits({ selectCity: null });
 const onSelect = () => {
   showInput.value = false;
-  emit('selectCity', city.value)
+  emit('selectCity', city.value);
 };
 </script>
 

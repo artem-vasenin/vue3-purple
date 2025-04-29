@@ -1,33 +1,38 @@
 <script setup>
 import {ref, onMounted} from 'vue';
 import Stat from './components/Stat.vue'
+import Tabs from './components/Tabs.vue';
 import CitySelect from './components/CitySelect.vue';
-import IconSun from './icons/IconSun.vue';
 
-const data = ref(null);
+const current = ref(null);
+const days = ref([]);
 const city = ref('Тверь');
-const transform = (val) => {
+const transformCurrent = () => {
+  const val = current.value;
+  console.log(val);
   return [
-    { label: 'Температура', value: `${!val ? '-' : val.current.temp_c}°С` },
-    { label: 'Влажность', value: `${!val ? '-' : val.current.humidity}%` },
-    { label: 'Облачность', value: `${!val ? '-' : val.current.cloud}%` },
-    { label: 'Осадки', value: `${!val ? '-' : val.current.pressure_in}%` },
-    { label: 'Ветер', value: `${!val ? '-' : val.current.gust_kph} км/ч` },
+    { label: 'Температура', value: `${!val ? '-' : val.day.avgtemp_c}°С` },
+    { label: 'Влажность', value: `${!val ? '-' : val.day.avghumidity}%` },
+    { label: 'Ветер', value: `${!val ? '-' : val.day.avgvis_km} км/ч` },
   ];
 };
 const getCity = async (val) => {
   city.value = val;
   try {
-    const res = await fetch(`http://api.weatherapi.com/v1/current.json?key=d793fa83e26041a699e122326252904&q=${val}&days=3&lang=ru&aqi=yes`);
+    const res = await fetch(`http://api.weatherapi.com/v1/forecast.json?key=d793fa83e26041a699e122326252904&q=${val}&lang=ru&days=4&aqi=no&alerts=no`);
     if (res.status !== 200) {
       throw new Error('Город не найден');
     }
-    data.value = transform(await res.json());
+    const info = await res.json();
+    current.value = info.forecast.forecastday[0];
+    days.value = info.forecast.forecastday;
   } catch (e) {
     console.error(e);
-    data.value = transform(null);
   }
 }
+const selectCurrent = (val) => {
+  current.value = val;
+};
 onMounted(() => {
   getCity(city.value);
 })
@@ -35,9 +40,8 @@ onMounted(() => {
 
 <template>
   <main class="main">
-    {{city}}
-    <IconSun :size="20" />
-    <Stat v-for="(i, idx) in data" :key="idx" v-bind="i"/>
+    <Stat v-for="(i, idx) in transformCurrent()" :key="idx" v-bind="i"/>
+    <Tabs :days="days" :current="current" @select-current="selectCurrent"/>
     <CitySelect :value="city" @select-city="getCity"/>
   </main>
 </template>
