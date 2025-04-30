@@ -1,8 +1,4 @@
 <script setup>
-import IconSun from '../icons/IconSun.vue';
-import IconRain from '../icons/IconRain.vue';
-import IconCloudSun from '../icons/IconCloudSun.vue';
-
 const props = defineProps(['days', 'current']);
 const emit = defineEmits({ selectCurrent: null });
 const getDay = (val) => {
@@ -21,9 +17,7 @@ const getDay = (val) => {
       @click="emit('selectCurrent', d)"
   >
     <div class="top">
-      <IconSun v-if="d.day.condition.text === 'Солнечно'" size="54" :color="props.current.date === d.date ? 'black' : 'white'" />
-      <IconRain v-else-if="d.day.condition.text.toLowerCase().includes('дождь')" :color="props.current.date === d.date ? 'black' : 'white'" />
-      <IconCloudSun v-else :color="props.current.date === d.date ? 'black' : 'white'" />
+      <img :src="d.day.condition.icon" alt="img" class="img">
     </div>
     <div class="middle">{{getDay(d.date)}}</div>
     <div class="bottom">{{`${d.day.avgtemp_c}°С`}}</div>
