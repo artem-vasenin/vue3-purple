@@ -3,13 +3,13 @@ import {ref, onMounted} from 'vue';
 import Stat from './components/Stat.vue'
 import Tabs from './components/Tabs.vue';
 import CitySelect from './components/CitySelect.vue';
+import Details from './components/Details.vue';
 
 const current = ref(null);
 const days = ref([]);
 const city = ref('Тверь');
 const transformCurrent = () => {
   const val = current.value;
-  console.log(val);
   return [
     { label: 'Температура', value: `${!val ? '-' : val.day.avgtemp_c}°С` },
     { label: 'Влажность', value: `${!val ? '-' : val.day.avghumidity}%` },
@@ -40,9 +40,12 @@ onMounted(() => {
 
 <template>
   <main class="main">
-    <Stat v-for="(i, idx) in transformCurrent()" :key="idx" v-bind="i"/>
-    <Tabs :days="days" :current="current" @select-current="selectCurrent"/>
-    <CitySelect :value="city" @select-city="getCity"/>
+    <Details :current="current" :city="city" />
+    <div class="days">
+      <Stat v-for="(i, idx) in transformCurrent()" :key="idx" v-bind="i"/>
+      <Tabs :days="days" :current="current" @select-current="selectCurrent"/>
+      <CitySelect :value="city" @select-city="getCity"/>
+    </div>
   </main>
 </template>
 
@@ -50,8 +53,12 @@ onMounted(() => {
 .main {
   background-color: var(--color-main-bg);
   width: 944px;
-  height: 644px;
   border-radius: 26px;
   padding: 50px;
+  display: flex;
+}
+.days {
+  flex: 0 0 50%;
+  max-width: 50%;
 }
 </style>
