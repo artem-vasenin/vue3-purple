@@ -1,6 +1,9 @@
 <script setup>
-const props = defineProps(['days', 'current']);
+import {inject} from 'vue';
+
 const emit = defineEmits({ selectCurrent: null });
+const current = inject('current');
+const days = inject('days');
 const getDay = (val) => {
   const date = new Date(val + 'T00:00'); // избегаем смещения по таймзоне
   const daysRu = ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'];
@@ -9,11 +12,11 @@ const getDay = (val) => {
 </script>
 
 <template>
-<div v-if="props.days?.length" class="tabs">
+<div v-if="days?.length" class="tabs">
   <div
-      v-for="(d, idx) in props.days"
+      v-for="(d, idx) in days"
       :key="idx"
-      :class="{tab: true, active: props.current.date === d.date}"
+      :class="{tab: true, active: current.date === d.date}"
       @click="emit('selectCurrent', d)"
   >
     <div class="top">

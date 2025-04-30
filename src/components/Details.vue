@@ -1,7 +1,9 @@
 <script setup>
 import IconPoint from '../icons/IconMapMarker.vue';
+import {inject} from 'vue';
 
-const props = defineProps(['current', 'city']);
+const city = inject('city');
+const current = inject('current');
 const getDate = (dateStr) => {
   if (!dateStr) return '-';
   const date = new Date(dateStr + 'T00:00');
@@ -18,18 +20,18 @@ const getWeekDay = (val) => {
 <template>
   <div class="details">
     <div class="top">
-      <div class="day">{{getWeekDay(props.current?.date)}}</div>
-      <div class="date">{{getDate(props.current?.date)}}</div>
+      <div class="day">{{getWeekDay(current?.date)}}</div>
+      <div class="date">{{getDate(current?.date)}}</div>
       <div class="city">
-        <IconPoint/> {{props?.city}}
+        <IconPoint/> {{city}}
       </div>
     </div>
     <div class="bottom">
       <div class="icon">
-        <img :src="props.current?.day?.condition?.icon" alt="icon"/>
+        <img :src="current?.day?.condition?.icon" alt="icon"/>
       </div>
-      <div class="temp">{{`${props.current?.day?.avgtemp_c}°С`}}</div>
-      <div class="weather">{{props.current?.day?.condition?.text}}</div>
+      <div class="temp">{{`${current?.day?.avgtemp_c}°С`}}</div>
+      <div class="weather">{{current?.day?.condition?.text}}</div>
     </div>
   </div>
 </template>

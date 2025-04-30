@@ -1,5 +1,5 @@
 <script setup>
-import {ref, onMounted} from 'vue';
+import {ref, onMounted, provide} from 'vue';
 import Stat from './components/Stat.vue'
 import Tabs from './components/Tabs.vue';
 import CitySelect from './components/CitySelect.vue';
@@ -8,6 +8,9 @@ import Details from './components/Details.vue';
 const current = ref(null);
 const days = ref([]);
 const city = ref('Тверь');
+provide('current', current);
+provide('days', days);
+provide('city', city);
 const transformCurrent = () => {
   const val = current.value;
   return [
@@ -40,11 +43,11 @@ onMounted(() => {
 
 <template>
   <main class="main">
-    <Details :current="current" :city="city" />
+    <Details />
     <div class="days">
       <Stat v-for="(i, idx) in transformCurrent()" :key="idx" v-bind="i"/>
-      <Tabs :days="days" :current="current" @select-current="selectCurrent"/>
-      <CitySelect :value="city" @select-city="getCity"/>
+      <Tabs @select-current="selectCurrent"/>
+      <CitySelect @select-city="getCity"/>
     </div>
   </main>
 </template>

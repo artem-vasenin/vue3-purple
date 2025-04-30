@@ -1,12 +1,11 @@
 <script setup>
-import {ref} from 'vue';
+import {inject, ref} from 'vue';
 import Btn from './Btn.vue';
 import Input from './Input.vue';
 import IconPoint from '../icons/IconMapMarker.vue';
 
-const props = defineProps({ value: { type: String, required: true } });
 const showInput = ref(false);
-const city = ref(props.value);
+const city = inject('city');
 const emit = defineEmits({ selectCity: null });
 const onSelect = () => {
   showInput.value = false;
