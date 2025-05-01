@@ -51,7 +51,7 @@ class SimpleAPIHandler(BaseHTTPRequestHandler):
             self._set_headers(404)
             self.wfile.write(json.dumps({'error': 'Not found'}).encode())
 
-def run(server_class=HTTPServer, handler_class=SimpleAPIHandler, port=8000):
+def run(server_class=HTTPServer, handler_class=SimpleAPIHandler, port=3000):
     server_address = ('', port)
     httpd = server_class(server_address, handler_class)
     print(f'Serving on http://localhost:{port}')
