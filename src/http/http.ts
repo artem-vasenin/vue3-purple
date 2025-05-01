@@ -1,8 +1,8 @@
 import {API_ROUTES} from "@/types/constants.ts";
-import type {Profile} from "@/types/profile.ts";
+import type {IProfile} from "@/types/profile.ts";
 
 class Http {
-    async getProfile(): Promise<Profile | null> {
+    async getProfile(): Promise<IProfile | null> {
         try {
             const res = await fetch(API_ROUTES.PROFILE);
             if (!res) throw new Error('Request wrong');

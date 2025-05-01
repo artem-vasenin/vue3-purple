@@ -1,13 +1,15 @@
 <script setup lang="ts">
-const { name = 'гость' } = defineProps<{ name?: string }>();
+import type {IProfile} from "@/types/profile.ts";
+
+const { profile } = defineProps<{ profile: IProfile | null }>();
 </script>
 
 <template>
   <div class="avatar">
-    <img src="../assets/img/avatar.png" alt="img" class="img">
+    <img :src="profile?.avatar || '../assets/img/avatar.png'" alt="img" class="img">
     <div class="status online"/>
   </div>
-  <div class="name">Привет, <b>{{name}}!</b></div>
+  <div class="name">Привет, <b>{{profile?.name}}!</b></div>
 </template>
 
 <style scoped>

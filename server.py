@@ -24,7 +24,10 @@ class SimpleAPIHandler(BaseHTTPRequestHandler):
             self.wfile.write(json.dumps({'message': 'BOOKMARKS!'}).encode())
         elif self.path == '/profile':
             self._set_headers()
-            self.wfile.write(json.dumps({'message': 'PROFILE!'}).encode())
+            self.wfile.write(json.dumps({
+                'name': 'Артём',
+                'avatar': 'https://sun9-29.userapi.com/impg/nPsVS8z3krnv9BkbwvW_NPE5vhq3GZs7yZ_l6Q/127gN7OQ51s.jpg?size=586x587&quality=95&sign=ff289387375387681e3a34ff30a0ee7e&type=album',
+            }).encode())
         else:
             self._set_headers(404)
             self.wfile.write(json.dumps({'error': 'Not found'}).encode())

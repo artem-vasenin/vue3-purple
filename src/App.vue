@@ -14,7 +14,7 @@ onMounted(async () => {
 <template>
   <div class="app">
   <aside class="aside">
-    <Profile :name="profile?.name" />
+    <Profile :profile="profile" />
   </aside>
   <main class="main">
     main
