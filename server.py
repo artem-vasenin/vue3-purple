@@ -1,12 +1,19 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
-import json
 import sqlite3
+import json
 
 class SimpleAPIHandler(BaseHTTPRequestHandler):
     def _set_headers(self, status=200):
         self.send_response(status)
         self.send_header('Content-type', 'application/json')
+        self.send_header('Access-Control-Allow-Origin', 'http://localhost:5173')
+        self.send_header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
+        self.send_header('Access-Control-Allow-Headers', 'Content-Type')
+        self.send_header('Access-Control-Allow-Credentials', 'true')  # если нужно
         self.end_headers()
+
+    def do_OPTIONS(self):
+        self._set_headers(200)  # preflight ответ без тела
 
     def do_GET(self):
         if self.path == '/categories':
@@ -23,19 +30,7 @@ class SimpleAPIHandler(BaseHTTPRequestHandler):
             self.wfile.write(json.dumps({'error': 'Not found'}).encode())
 
     def do_POST(self):
-        if self.path == '/categories':
-            content_length = int(self.headers.get('Content-Length', 0))
-            body = self.rfile.read(content_length)
-            try:
-                data = json.loads(body)
-            except json.JSONDecodeError:
-                self._set_headers(400)
-                self.wfile.write(json.dumps({'error': 'Invalid JSON'}).encode())
-                return
-
-            self._set_headers()
-            self.wfile.write(json.dumps({'you_sent': data}).encode())
-        elif self.path == '/bookmarks':
+        if self.path in ['/categories', '/bookmarks']:
             content_length = int(self.headers.get('Content-Length', 0))
             body = self.rfile.read(content_length)
             try:
