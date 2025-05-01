@@ -1,14 +1,5 @@
 <script setup lang="ts">
-import {onMounted} from "vue";
-import {http} from "@/http/http.ts";
 import Profile from "@/components/Profile.vue";
-import {useProfileStore} from "@/store/profile.ts";
-
-const store = useProfileStore();
-
-onMounted(async () => {
-  store.profile = await http.getProfile();
-});
 </script>
 
 <template>
