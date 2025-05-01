@@ -1,15 +1,14 @@
 <script setup lang="ts">
-import type {IProfile} from "@/types/profile.ts";
-
-const { profile } = defineProps<{ profile: IProfile | null }>();
+import {useProfileStore} from "@/store/profile.ts";
+const store = useProfileStore();
 </script>
 
 <template>
   <div class="avatar">
-    <img :src="profile?.avatar || '../assets/img/avatar.png'" alt="img" class="img">
+    <img :src="store?.profile?.avatar || '../assets/img/avatar.png'" alt="img" class="img">
     <div class="status online"/>
   </div>
-  <div class="name">Привет, <b>{{profile?.name}}!</b></div>
+  <div class="name">Привет, <b>{{store?.profile?.name}}!</b></div>
 </template>
 
 <style scoped>

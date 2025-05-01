@@ -1,20 +1,20 @@
 <script setup lang="ts">
-import Profile from "@/components/Profile.vue";
-import {onMounted, ref} from "vue";
+import {onMounted} from "vue";
 import {http} from "@/http/http.ts";
-import type {IProfile} from "@/types/profile.ts";
+import Profile from "@/components/Profile.vue";
+import {useProfileStore} from "@/store/profile.ts";
 
-const profile = ref<IProfile | null>(null);
+const store = useProfileStore();
 
 onMounted(async () => {
-  profile.value = await http.getProfile();
+  store.profile = await http.getProfile();
 });
 </script>
 
 <template>
   <div class="app">
   <aside class="aside">
-    <Profile :profile="profile" />
+    <Profile />
   </aside>
   <main class="main">
     main
