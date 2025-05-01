@@ -1,6 +1,6 @@
 export const API_BASE = 'http://localhost:3000/';
 export const API_ROUTES = {
-    CATEGORIES: 'categories',
+    CATEGORIES: 'category',
     PROFILE: 'profile',
-    BOOKMARKS: 'bookmarks',
+    BOOKMARKS: 'bookmark',
 };

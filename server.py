@@ -16,10 +16,28 @@ class SimpleAPIHandler(BaseHTTPRequestHandler):
         self._set_headers(200)  # preflight ответ без тела
 
     def do_GET(self):
-        if self.path == '/categories':
-            self._set_headers()
-            self.wfile.write(json.dumps({'message': 'CATEGORIES!'}).encode())
-        elif self.path == '/bookmarks':
+        if self.path == '/category':
+            try:
+                with sqlite3.connect('./bookmarks.db') as conn:
+                    cursor = conn.cursor()
+                    cursor.execute('SELECT id, name, alias FROM categories')
+                    rows = cursor.fetchall()
+                    categories = [
+                        {'id': row[0], 'name': row[1], 'alias': row[2]}
+                        for row in rows
+                    ]
+                response = json.dumps(categories).encode('utf-8')
+                self.send_response(200)
+                self.send_header('Content-Type', 'application/json')
+                self.send_header('Content-Length', str(len(response)))
+                self.end_headers()
+                self.wfile.write(response)
+            except Exception as e:
+                self.send_response(500)
+                self.send_header('Content-Type', 'text/plain')
+                self.end_headers()
+                self.wfile.write(str(e).encode('utf-8'))
+        elif self.path == '/bookmark':
             self._set_headers()
             self.wfile.write(json.dumps({'message': 'BOOKMARKS!'}).encode())
         elif self.path == '/profile':
@@ -33,21 +51,35 @@ class SimpleAPIHandler(BaseHTTPRequestHandler):
             self.wfile.write(json.dumps({'error': 'Not found'}).encode())
 
     def do_POST(self):
-        if self.path in ['/categories', '/bookmarks']:
+        if self.path == '/category':
             content_length = int(self.headers.get('Content-Length', 0))
-            body = self.rfile.read(content_length)
+            post_data = self.rfile.read(content_length)
             try:
-                data = json.loads(body)
-            except json.JSONDecodeError:
-                self._set_headers(400)
-                self.wfile.write(json.dumps({'error': 'Invalid JSON'}).encode())
+                data = json.loads(post_data.decode('utf-8'))
+                name = data['name']
+                alias = data['alias']
+            except (json.JSONDecodeError, KeyError):
+                self.send_response(400)
+                self.end_headers()
+                self.wfile.write(b'Invalid JSON or missing fields')
                 return
 
-            self._set_headers()
-            self.wfile.write(json.dumps({'you_sent': data}).encode())
+            try:
+                with sqlite3.connect('./bookmarks.db') as conn:
+                    cursor = conn.cursor()
+                    cursor.execute('INSERT INTO categories (name, alias) VALUES (?, ?)', (name, alias))
+                    conn.commit()
+                self.send_response(201)
+                self.end_headers()
+                self.wfile.write(b'Category added')
+            except sqlite3.Error as e:
+                self.send_response(500)
+                self.end_headers()
+                self.wfile.write(f'Database error: {e}'.encode('utf-8'))
         else:
-            self._set_headers(404)
-            self.wfile.write(json.dumps({'error': 'Not found'}).encode())
+            self.send_response(404)
+            self.end_headers()
+            self.wfile.write(b'Not found')
 
 def run(server_class=HTTPServer, handler_class=SimpleAPIHandler, port=3000):
     server_address = ('', port)
