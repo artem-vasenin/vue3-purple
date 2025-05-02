@@ -11,7 +11,7 @@ import CatForm from "@/components/CatForm.vue";
     <Menu />
   </aside>
   <main class="main">
-    main
+    <RouterView />
   </main>
   </div>
   <CatForm />

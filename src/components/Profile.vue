@@ -10,7 +10,9 @@ onMounted(async () => {
 
 <template>
   <div class="avatar">
-    <img :src="profileStore?.profile?.avatar" alt="img" class="img">
+    <RouterLink to="/">
+      <img :src="profileStore?.profile?.avatar" alt="img" class="img">
+    </RouterLink>
     <div class="status online"/>
   </div>
   <div class="name">Привет, <b>{{profileStore?.profile?.name}}!</b></div>
