@@ -13,7 +13,7 @@ onMounted(async () => {
   <nav class="nav">
     <ul class="list">
       <li v-for="i in catStore.categoryList" :key="i.id" class="list__item">
-        <RouterLink :to="`/category/${i.alias}`" class="list__link">{{i.name}}</RouterLink>
+        <RouterLink :to="`/categories/${i.alias}`" class="list__link">{{i.name}}</RouterLink>
       </li>
     </ul>
   </nav>

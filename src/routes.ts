@@ -1,11 +1,12 @@
 import {createRouter, createWebHistory} from "vue-router";
-import Home from "@/pages/Home.vue";
-import Category from "@/pages/Category.vue";
 
 const routerOps = {
     routes: [
-        { path: '/', component: Home },
-        { path: '/category/:alias', component: Category },
+        { path: '/', component: () => import('./pages/Auth.vue') },
+        { path: '/categories', component: () => import('./pages/Categories.vue'), children: [
+            { path: '', component: () => import('./pages/Greeting.vue') },
+            { path: ':alias', component: () => import('./pages/Category.vue') }
+        ] },
     ],
     history: createWebHistory(),
 }
