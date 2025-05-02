@@ -1,19 +1,19 @@
 <script setup lang="ts">
 import {useProfileStore} from "@/store/profile.ts";
 import {onMounted} from "vue";
-const store = useProfileStore();
+const profileStore = useProfileStore();
 
 onMounted(async () => {
-  await store.getProfile();
+  await profileStore.getProfile();
 });
 </script>
 
 <template>
   <div class="avatar">
-    <img :src="store?.profile?.avatar || '../assets/img/avatar.png'" alt="img" class="img">
+    <img :src="profileStore?.profile?.avatar" alt="img" class="img">
     <div class="status online"/>
   </div>
-  <div class="name">Привет, <b>{{store?.profile?.name}}!</b></div>
+  <div class="name">Привет, <b>{{profileStore?.profile?.name}}!</b></div>
 </template>
 
 <style scoped>
