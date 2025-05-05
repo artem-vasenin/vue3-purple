@@ -3,6 +3,7 @@ import {defineStore} from "pinia";
 
 import {http} from "@/http/http.ts";
 import type {ICategory} from "@/types/category.ts";
+import Category from "@/pages/Category.vue";
 
 export const useCategoryStore = defineStore('category', () => {
     const category = ref<ICategory | null>(null);
@@ -26,5 +27,14 @@ export const useCategoryStore = defineStore('category', () => {
         await getCatList();
     }
 
-    return { category, categoryList, showForm, form, resetForm, getCatList, setCategory };
+    const getCategoryByAlias = (alias: string | string[]): ICategory | null => {
+        if (alias && typeof alias === 'string') {
+            const cat: ICategory | null = categoryList.value.find((c: ICategory) => c.alias === alias) || null;
+            category.value = cat;
+            return cat;
+        }
+        return null;
+    }
+
+    return { category, categoryList, showForm, form, resetForm, getCatList, setCategory, getCategoryByAlias };
 });

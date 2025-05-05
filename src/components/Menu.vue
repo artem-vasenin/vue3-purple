@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import {useCategoryStore} from "@/store/category.ts";
 import {onMounted} from "vue";
+
+import {useCategoryStore} from "@/store/category.ts";
 
 const catStore = useCategoryStore();
 
@@ -13,7 +14,11 @@ onMounted(async () => {
   <nav class="nav">
     <ul class="list">
       <li v-for="i in catStore.categoryList" :key="i.id" class="list__item">
-        <RouterLink :to="`/categories/${i.alias}`" class="list__link">{{i.name}}</RouterLink>
+        <RouterLink
+            :to="`/categories/${i.alias}`"
+            class="list__link"
+            exact-active-class="active"
+        >{{i.name}}</RouterLink>
       </li>
     </ul>
   </nav>
@@ -32,7 +37,6 @@ onMounted(async () => {
   text-decoration: none;
   color: var(--color-dark);
   height: 50px;
-  width: 100%;
   align-items: center;
   margin-bottom: 1px;
   transition: all .3s ease;

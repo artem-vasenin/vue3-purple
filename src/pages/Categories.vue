@@ -27,7 +27,7 @@ import Profile from "@/components/Profile.vue";
   padding: 120px 20px 20px;
 }
 .aside {
-  height: 100vh;
+  height: calc(100vh - 140px);
   flex: 0 0 400px;
   max-width: 400px;
 }
