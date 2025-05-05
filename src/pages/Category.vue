@@ -1,27 +1,25 @@
 <script setup lang="ts">
-import {useRoute} from "vue-router";
+import {useRoute, onBeforeRouteUpdate} from "vue-router";
 import {ref, watch} from "vue";
 import {useCategoryStore} from "@/store/category.ts";
 import type {ICategory} from "@/types/category.ts";
 
 const route = useRoute();
 const store = useCategoryStore();
-const alias = ref(route.params.alias);
 const category = ref<ICategory | null>(null);
 watch(
-  () => ({
-    newAlias: route.params.alias,
-    categories: store.categoryList,
-  }),
-  (value) => {
-    alias.value = value.newAlias;
-    category.value = value.categories.length ? store.getCategoryByAlias(value.newAlias) : null;
+  () => store.categoryList,
+  () => {
+    category.value = store.getCategoryByAlias(route.params.alias);
   }
 );
+onBeforeRouteUpdate((to) => {
+  category.value = store.getCategoryByAlias(to.params.alias);
+});
 </script>
 
 <template>
-{{store.category?.name || 'Нетуть'}}
+{{store.category?.name}}
 </template>
 
 <style scoped>
