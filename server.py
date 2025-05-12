@@ -1,3 +1,4 @@
+from datetime import datetime
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import sqlite3
 import json
@@ -38,9 +39,28 @@ class SimpleAPIHandler(BaseHTTPRequestHandler):
                 self.send_header('Content-Type', 'text/plain')
                 self.end_headers()
                 self.wfile.write(str(e).encode('utf-8'))
-        elif self.path == '/bookmark':
-            self._set_headers()
-            self.wfile.write(json.dumps({'message': 'BOOKMARKS!'}).encode())
+        elif self.path == '/bookmarks':
+            try:
+                with sqlite3.connect('./bookmarks.db') as conn:
+                    cursor = conn.cursor()
+                    cursor.execute('SELECT id, category_id, url, title, image, created_at FROM bookmarks')
+                    rows = cursor.fetchall()
+                    list = [
+                        {'id': row[0], 'category_id': row[1], 'url': row[2], 'title': row[3], 'image': row[4], 'created_at': row[5]}
+                        for row in rows
+                    ]
+                response = json.dumps(list).encode('utf-8')
+                self.send_response(200)
+                self.send_header('Content-Type', 'application/json')
+                self.send_header('Access-Control-Allow-Origin', 'http://localhost:5173')
+                self.send_header('Content-Length', str(len(response)))
+                self.end_headers()
+                self.wfile.write(response)
+            except Exception as e:
+                self.send_response(500)
+                self.send_header('Content-Type', 'text/plain')
+                self.end_headers()
+                self.wfile.write(str(e).encode('utf-8'))
         elif self.path == '/profile':
             self._set_headers()
             self.wfile.write(json.dumps({
@@ -69,6 +89,35 @@ class SimpleAPIHandler(BaseHTTPRequestHandler):
                 with sqlite3.connect('./bookmarks.db') as conn:
                     cursor = conn.cursor()
                     cursor.execute('INSERT INTO categories (name, alias) VALUES (?, ?)', (name, alias))
+                    conn.commit()
+                self.send_response(201)
+                self.end_headers()
+                self.wfile.write(b'Category added')
+            except sqlite3.Error as e:
+                self.send_response(500)
+                self.end_headers()
+                self.wfile.write(f'Database error: {e}'.encode('utf-8'))
+        if self.path == '/bookmarks':
+            content_length = int(self.headers.get('Content-Length', 0))
+            post_data = self.rfile.read(content_length)
+            try:
+                data = json.loads(post_data.decode('utf-8'))
+                category_id = data['category_id']
+                url = data['url']
+                title = data['title']
+            except (json.JSONDecodeError, KeyError):
+                self.send_response(400)
+                self.end_headers()
+                self.wfile.write(b'Invalid JSON or missing fields')
+                return
+
+            try:
+                with sqlite3.connect('./bookmarks.db') as conn:
+                    cursor = conn.cursor()
+                    cursor.execute(
+                        'INSERT INTO bookmarks (category_id, url, title, created_at) VALUES (?, ?, ?, datetime("now"))',
+                        (category_id, url, title)
+                    )
                     conn.commit()
                 self.send_response(201)
                 self.end_headers()
