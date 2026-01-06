@@ -1,10 +1,12 @@
 <script setup>
+  import { ref } from 'vue';
   import Button from './Button.vue';
 
-  let showForm = true;
+  const showForm = ref(false);
+  const city = ref('');
 
   const openForm = () => {
-    showForm = !showForm;
+    showForm.value = !showForm.value;
   };
 
   // const emit = defineEmits(['setCity']); // Простой вариант без валидации
@@ -15,7 +17,9 @@
   });
 
   const selectCity = () => {
-    emit('setCity', 'Moscow');
+    emit('setCity', city.value);
+    city.value = '';
+    showForm.value = false;
   };
 </script>
 
@@ -27,7 +31,7 @@
     </Button>
   </div>
   <div v-else class="form">
-    <input type="text" class="input" placeholder="Введите город">
+    <input v-model="city" type="text" class="input" placeholder="Введите город">
     <Button width="140px" @click="selectCity">Сохранить</Button>
   </div>
 </template>

@@ -1,16 +1,18 @@
 <script setup>
+import { ref } from 'vue';
+
 import LeftPanel from './components/LeftPanel.vue';
 import DaysCards from './components/DaysCards.vue';
 import WeatherInfo from './components/WeatherInfo.vue';
 import Form from './components/Form.vue';
 
-  const info = [{label: 'Влажность', value: '90%'}, {label: 'Осадки', value: '0%'}, {label: 'Ветер', value: '3м/с'}];
-  const cards = [
+  const info = ref([{label: 'Влажность', value: '90%'}, {label: 'Осадки', value: '0%'}, {label: 'Ветер', value: '3м/с'}]);
+  const cards = ref([
     {icon: 'info', day: 'Вт', value: '30 °C'},
     {icon: 'info', day: 'Ср', value: '30 °C'},
     {icon: 'info', day: 'Чт', value: '30 °C'},
     {icon: 'info', day: 'Пт', value: '30 °C'},
-  ];
+  ]);
 
   const setCity = (val) => {
     console.log(val);
