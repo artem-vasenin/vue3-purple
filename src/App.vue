@@ -11,6 +11,10 @@ import Form from './components/Form.vue';
     {icon: 'info', day: 'Чт', value: '30 °C'},
     {icon: 'info', day: 'Пт', value: '30 °C'},
   ];
+
+  const setCity = (val) => {
+    console.log(val);
+  };
 </script>
 
 <template>
@@ -19,7 +23,7 @@ import Form from './components/Form.vue';
     <div class="content">
       <WeatherInfo :list="info" />
       <DaysCards :list="cards" />
-      <Form />
+      <Form @set-city="setCity" />
     </div>
   </div>
 </template>

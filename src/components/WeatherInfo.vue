@@ -28,6 +28,7 @@
     font-size: 28px;
     line-height: 100%;
     letter-spacing: 0%;
+    text-transform: uppercase;
   }
   .value {
     font-weight: 500;

@@ -1,9 +1,9 @@
 <script setup>
-
+  const { width = '100%' } = defineProps(['width']);
 </script>
 
 <template>
-  <button class="btn">
+  <button class="btn" :style="`width: ${width}`">
     <slot />
   </button>
 </template>
