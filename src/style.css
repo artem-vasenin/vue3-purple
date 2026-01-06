@@ -8,6 +8,10 @@
   --gradient-invert: linear-gradient(152.19deg, rgba(136, 235, 239, 0.9) -0.04%, rgba(83, 91, 230, 0.9) 100%);
 }
 
+html {
+  height: 100%;
+}
+
 body {
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -18,4 +22,12 @@ body {
   font-family: "Montserrat", sans-serif;
   font-optical-sizing: auto;
   font-style: normal;
+  height: 100%;
+}
+
+#app {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
