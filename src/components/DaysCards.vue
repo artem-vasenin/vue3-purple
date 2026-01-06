@@ -1,10 +1,21 @@
 <script setup>
-  const { list } = defineProps(['list']);
+  const { list, selected } = defineProps(['list', 'selected']);
+  const emit = defineEmits(['setSelected']);
+
+  const setCard = (val) => {
+    emit('setSelected', val);
+  };
 </script>
 
 <template>
   <div class="wrap">
-    <div v-for="(i, idx) in list" :key="idx" class="card card--active">
+    <div
+      v-for="(i, idx) in list"
+      :key="idx"
+      :class="selected === idx ? 'card--active' : ''" 
+      class="card" 
+      @click="setCard(idx)"
+    >
       <div class="card__icon">{{ i.icon }}</div>
       <div class="card__day">{{ i.day }}</div>
       <div class="card__value">{{ i.value }}</div>

@@ -3,7 +3,7 @@
   import Button from './Button.vue';
 
   const showForm = ref(false);
-  const city = ref('');
+  const city = defineModel('city', { type: String, required: true });
 
   const openForm = () => {
     showForm.value = !showForm.value;

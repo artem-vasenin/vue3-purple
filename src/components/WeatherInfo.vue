@@ -5,7 +5,7 @@
 <template>
   <ul class="list">
     <li v-for="(i, idx) in list" :key="idx" class="list__item">
-      <span class="label">{{ i.label }}</span><span class="value">{{ i.value }}</span>
+      <span class="label">{{ i.label }}</span><span class="value">{{ i.value }}{{ i.unit }}</span>
     </li>
   </ul>
 </template>
