@@ -1,5 +1,5 @@
 <script setup>
-  import { ref } from 'vue';
+  import { ref, onMounted, onUnmounted, watch } from 'vue';
   import Button from './Button.vue';
 
   const showForm = ref(false);
@@ -21,6 +21,18 @@
     city.value = '';
     showForm.value = false;
   };
+
+  onMounted(() => {
+    console.log('Mounted');
+  });
+
+  onUnmounted(() => {
+    console.log('Unmounted');
+  })
+
+  watch(city, (newVal, oldVal) => {
+    console.log(newVal, oldVal);
+  });
 </script>
 
 <template>

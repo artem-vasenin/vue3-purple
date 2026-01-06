@@ -21,8 +21,6 @@ import Form from './components/Form.vue';
   const selectedCity = ref('');
 
   const setCity = (val) => {
-    console.log(val);
-    
     selectedCity.value = val;
   };
 
