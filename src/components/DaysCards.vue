@@ -1,24 +1,29 @@
 <script setup>
-  const { list, selected } = defineProps(['list', 'selected']);
+  const { info, selected } = defineProps(['info', 'selected']);
   const emit = defineEmits(['setSelected']);
 
   const setCard = (val) => {
     emit('setSelected', val);
   };
+
+  const getDay = (str) => {
+    const date = new Date(str);
+    return date.toLocaleDateString('ru-RU', { weekday: 'short' }); 
+  }
 </script>
 
 <template>
   <div class="wrap">
     <div
-      v-for="(i, idx) in list"
+      v-for="(i, idx) in info?.forecast?.forecastday"
       :key="idx"
       :class="selected === idx ? 'card--active' : ''" 
       class="card" 
       @click="setCard(idx)"
     >
-      <div class="card__icon">{{ i.icon }}</div>
-      <div class="card__day">{{ i.day }}</div>
-      <div class="card__value">{{ i.value }}</div>
+      <div class="card__icon"><img :src="i.day.condition.icon" alt="icon"></div>
+      <div class="card__day">{{ getDay(i.date) }}</div>
+      <div class="card__value">{{ i.day.avgtemp_c }}°C</div>
     </div>
   </div>
 </template>
@@ -48,9 +53,12 @@
     }
   }
   .card__icon {
-    width: 54px;
+    width: 100%;
     height: 54px;
     margin-bottom: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
   .card__day {
     font-weight: 400;

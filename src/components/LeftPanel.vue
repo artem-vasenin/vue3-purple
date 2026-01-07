@@ -1,22 +1,36 @@
 <script setup>
+  const { city, current } = defineProps(['city', 'current']);
 
+  const getDay = (str) => {
+    if (!str) return '';
+    const date = new Date(str);
+    return date.toLocaleDateString('ru-RU', { weekday: 'long' }); 
+  }
+
+  const getDate = (str) => {
+    if (!str) return '';
+    const date = new Date(str);
+    return date.toLocaleDateString('ru-RU'); 
+  }
 </script>
 
 <template>
   <div class="wrap">
     <div class="top">
-      <div class="top__title">Вторник</div>
-      <div class="top__date">20 июня 2025</div>
+      <div class="top__title">{{ getDay(current?.date) }}</div>
+      <div class="top__date">{{ getDate(current?.date) }}</div>
       <div class="top__city">
-        <img src="../assets/location.svg" alt="icon" />
-        Москва
+        <img src="../assets/location.svg" alt="icon">
+        {{ city }}
       </div>
     </div>
 
     <div class="bottom">
-      <div class="bottom__icon">icon</div>
-      <div class="bottom__degreese">29 °C</div>
-      <div class="bottom__weather">Солнечно</div>
+      <div class="bottom__icon">
+        <img :src="current?.day?.condition?.icon" alt="icon">
+      </div>
+      <div class="bottom__degreese">{{ current?.day?.avgtemp_c }} °C</div>
+      <div class="bottom__weather">{{ current?.day?.condition?.text }}</div>
     </div>
   </div>
 </template>

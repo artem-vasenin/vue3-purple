@@ -1,22 +1,12 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted, watch } from 'vue';
 
 import LeftPanel from './components/LeftPanel.vue';
 import DaysCards from './components/DaysCards.vue';
 import WeatherInfo from './components/WeatherInfo.vue';
 import Form from './components/Form.vue';
 
-  const info = ref([
-    {label: 'Влажность', value: 90, unit: '%'}, 
-    {label: 'Осадки', value: 0, unit: '%'}, 
-    {label: 'Ветер', value: 3, unit: 'm/s'},
-  ]);
-  const cards = ref([
-    {icon: 'info', day: 'Вт', value: '30 °C'},
-    {icon: 'info', day: 'Ср', value: '30 °C'},
-    {icon: 'info', day: 'Чт', value: '30 °C'},
-    {icon: 'info', day: 'Пт', value: '30 °C'},
-  ]);
+  const weather = ref({});
   const selectedCard = ref(0);
   const selectedCity = ref('');
 
@@ -27,14 +17,29 @@ import Form from './components/Form.vue';
   const setSelected = (val) => {
     selectedCard.value = val;
   };
+
+  const fetchWeather = async (city) => {
+    const url = `https://api.weatherapi.com/v1/forecast.json?key=d793fa83e26041a699e122326252904&q=${city}&days=4&aqi=no&alerts=no&lang=ru`;
+    const res = await fetch(url);
+    weather.value = await res.json();
+  }
+
+  watch(selectedCity, (newVal) => {
+    fetchWeather(newVal);
+  });
+
+  onMounted(() => {
+    selectedCity.value = 'Moscow';
+    fetchWeather('Moscow');
+  });
 </script>
 
 <template>
   <div class="app">
-    <LeftPanel />
+    <LeftPanel :city="selectedCity" :current="weather?.forecast?.forecastday[selectedCard] || {}" />
     <div class="content">
-      <WeatherInfo :list="info" />
-      <DaysCards :list="cards" :selected="selectedCard" @set-selected="setSelected" />
+      <WeatherInfo :current="weather?.forecast?.forecastday[selectedCard] || {}" />
+      <DaysCards :info="weather" :selected="selectedCard" @set-selected="setSelected" />
       <Form @set-city="setCity" />
     </div>
   </div>

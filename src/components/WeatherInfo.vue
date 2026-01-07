@@ -1,11 +1,17 @@
 <script setup>
-  const { list } = defineProps(['list']);
+  const { current } = defineProps(['current']);
 </script>
 
 <template>
   <ul class="list">
-    <li v-for="(i, idx) in list" :key="idx" class="list__item">
-      <span class="label">{{ i.label }}</span><span class="value">{{ i.value }}{{ i.unit }}</span>
+    <li class="list__item">
+      <span class="label">Влажность</span><span class="value">{{ current?.day?.avghumidity || '' }}%</span>
+    </li>
+    <li class="list__item">
+      <span class="label">Ветер</span><span class="value">{{ current?.day?.maxwind_kph || '' }}км/ч</span>
+    </li>
+    <li class="list__item">
+      <span class="label">{{ current?.day?.condition?.text }}</span>
     </li>
   </ul>
 </template>
@@ -13,7 +19,7 @@
 <style scoped>
   .list {
     padding: 0;
-    margin: 0 0 80px 0;
+    margin: 0 0 40px 0;
     list-style: none;
   } 
   .list__item {
