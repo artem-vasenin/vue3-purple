@@ -21,6 +21,10 @@
     city.value = '';
     showForm.value = false;
   };
+
+  const vFocus = {
+    mounted: el => el.focus(),
+  }
 </script>
 
 <template>
@@ -31,7 +35,7 @@
     </Button>
   </div>
   <div v-else class="form">
-    <input v-model="city" @keydown.enter="selectCity" type="text" class="input" placeholder="Введите город">
+    <input v-model="city" @keydown.enter="selectCity" v-focus type="text" class="input" placeholder="Введите город">
     <Button width="140px" @click="selectCity">Сохранить</Button>
   </div>
 </template>
