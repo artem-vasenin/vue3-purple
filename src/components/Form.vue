@@ -30,12 +30,12 @@
 <template>
   <div v-if="!showForm" class="activate">
     <Button :is-block="true" @click="openForm">
-      <img src="../assets/location.svg" alt="icon" />
+      <img src="../assets/location.svg" alt="icon">
       Изменить город
     </Button>
   </div>
   <div v-else class="form">
-    <input v-model="city" @keydown.enter="selectCity" v-focus type="text" class="input" placeholder="Введите город">
+    <input v-model="city" v-focus type="text" class="input" placeholder="Введите город" @keydown.enter="selectCity">
     <Button width="140px" @click="selectCity">Сохранить</Button>
   </div>
 </template>
