@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, watch } from 'vue';
+import { ref, onMounted, watch, computed } from 'vue';
 
 import LeftPanel from './components/LeftPanel.vue';
 import DaysCards from './components/DaysCards.vue';
@@ -13,6 +13,10 @@ import Error from './components/Error.vue';
   const selectedCard = ref(0);
   const selectedCity = ref('');
   const error = ref('');
+  const currentCard = computed(() => weather?.value?.forecast?.forecastday[selectedCard.value] || {});
+  
+  console.log(currentCard);
+  
 
   const setCity = (val) => {
     selectedCity.value = val;
@@ -57,9 +61,9 @@ import Error from './components/Error.vue';
   });
 
   onMounted(async () => {
-    selectedCity.value = 'Moscow';
+    selectedCity.value = 'Tver';
     try {
-      await fetchWeather('Moscow');
+      await fetchWeather('Tver');
     } catch (e) {
       error.value = e;
       setTimeout(() => {
@@ -73,9 +77,9 @@ import Error from './components/Error.vue';
   <Error :info="error" />
 
   <div class="app">
-    <LeftPanel :city="selectedCity" :current="weather?.forecast?.forecastday[selectedCard] || {}" />
+    <LeftPanel :city="selectedCity" :current="currentCard" />
     <div class="content">
-      <WeatherInfo :current="weather?.forecast?.forecastday[selectedCard] || {}" />
+      <WeatherInfo :current="currentCard" />
       <DaysCards :info="weather" :selected="selectedCard" @set-selected="setSelected" />
       <Form @set-city="setCity" />
     </div>
