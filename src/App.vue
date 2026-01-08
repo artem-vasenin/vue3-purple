@@ -6,6 +6,7 @@ import DaysCards from './components/DaysCards.vue';
 import WeatherInfo from './components/WeatherInfo.vue';
 import Form from './components/Form.vue';
 import Error from './components/Error.vue';
+import { selectedCityProvide, weatherProvide, selectedCardIdProvide, currentCardProvide } from './constants';
 
   const URL_EP = 'https://api.weatherapi.com/v1/forecast.json';
 
@@ -13,13 +14,13 @@ import Error from './components/Error.vue';
   const selectedCardId = ref(0);
   const selectedCity = ref('');
   const error = ref('');
-  
+
   const currentCard = computed(() => weather?.value?.forecast?.forecastday[selectedCardId.value] || {});
 
-  provide('currentCard', currentCard);
-  provide('selectedCardId', selectedCardId);
-  provide('selectedCity', selectedCity);
-  provide('weather', weather);
+  provide(currentCardProvide, currentCard);
+  provide(selectedCardIdProvide, selectedCardId);
+  provide(selectedCityProvide, selectedCity);
+  provide(weatherProvide, weather);
 
   const fetchWeather = async (q) => {
   const params = new URLSearchParams({ key: 'd793fa83e26041a699e122326252904', q, days: 4, aqi: 'no', alerts: 'no', lang: 'ru' });

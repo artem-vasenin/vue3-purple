@@ -1,8 +1,9 @@
 <script setup>
   import { inject } from 'vue';
+  import { weatherProvide, selectedCardIdProvide } from '../constants';
 
-  const selected = inject('selectedCardId');
-  const weather = inject('weather');
+  const selected = inject(selectedCardIdProvide);
+  const weather = inject(weatherProvide);
 
   const setCard = (val) => {
     selected.value = val;

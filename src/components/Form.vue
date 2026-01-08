@@ -1,10 +1,11 @@
 <script setup>
   import { ref, inject } from 'vue';
   import Button from './Button.vue';
+  import { selectedCityProvide } from '../constants';
 
   const showForm = ref(false);
   const city = defineModel('city', { type: String, required: true });
-  const selectedCity = inject('selectedCity');
+  const selectedCity = inject(selectedCityProvide);
 
   const openForm = () => {
     showForm.value = !showForm.value;

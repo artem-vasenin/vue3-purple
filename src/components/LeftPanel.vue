@@ -1,8 +1,9 @@
 <script setup>
   import { inject } from 'vue';
+  import { currentCardProvide, selectedCityProvide } from '../constants';
 
-  const city = inject('selectedCity');
-  const current = inject('currentCard');
+  const city = inject(selectedCityProvide);
+  const current = inject(currentCardProvide);
 
   const getDay = (str) => {
     if (!str) return '';

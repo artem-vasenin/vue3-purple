@@ -1,7 +1,8 @@
 <script setup>
   import { inject } from 'vue';
+  import { currentCardProvide } from '../constants';
 
-  const current = inject('currentCard');
+  const current = inject(currentCardProvide);
 </script>
 
 <template>
