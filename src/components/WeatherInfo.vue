@@ -1,5 +1,7 @@
 <script setup>
-  const { current } = defineProps(['current']);
+  import { inject } from 'vue';
+
+  const current = inject('currentCard');
 </script>
 
 <template>

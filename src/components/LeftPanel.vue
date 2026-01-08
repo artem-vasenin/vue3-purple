@@ -1,5 +1,8 @@
 <script setup>
-  const { city, current } = defineProps(['city', 'current']);
+  import { inject } from 'vue';
+
+  const city = inject('selectedCity');
+  const current = inject('currentCard');
 
   const getDay = (str) => {
     if (!str) return '';

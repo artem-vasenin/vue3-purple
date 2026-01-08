@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, watch, computed } from 'vue';
+import { ref, onMounted, watch, computed, provide } from 'vue';
 
 import LeftPanel from './components/LeftPanel.vue';
 import DaysCards from './components/DaysCards.vue';
@@ -10,21 +10,16 @@ import Error from './components/Error.vue';
   const URL_EP = 'https://api.weatherapi.com/v1/forecast.json';
 
   const weather = ref({});
-  const selectedCard = ref(0);
+  const selectedCardId = ref(0);
   const selectedCity = ref('');
   const error = ref('');
-  const currentCard = computed(() => weather?.value?.forecast?.forecastday[selectedCard.value] || {});
   
-  console.log(currentCard);
-  
+  const currentCard = computed(() => weather?.value?.forecast?.forecastday[selectedCardId.value] || {});
 
-  const setCity = (val) => {
-    selectedCity.value = val;
-  };
-
-  const setSelected = (val) => {
-    selectedCard.value = val;
-  };
+  provide('currentCard', currentCard);
+  provide('selectedCardId', selectedCardId);
+  provide('selectedCity', selectedCity);
+  provide('weather', weather);
 
   const fetchWeather = async (q) => {
   const params = new URLSearchParams({ key: 'd793fa83e26041a699e122326252904', q, days: 4, aqi: 'no', alerts: 'no', lang: 'ru' });
@@ -55,11 +50,6 @@ import Error from './components/Error.vue';
     }
   });
 
-  watch(error, () => {
-    console.log('Error', error.value);
-    
-  });
-
   onMounted(async () => {
     selectedCity.value = 'Tver';
     try {
@@ -77,11 +67,11 @@ import Error from './components/Error.vue';
   <Error :info="error" />
 
   <div class="app">
-    <LeftPanel :city="selectedCity" :current="currentCard" />
+    <LeftPanel />
     <div class="content">
-      <WeatherInfo :current="currentCard" />
-      <DaysCards :info="weather" :selected="selectedCard" @set-selected="setSelected" />
-      <Form @set-city="setCity" />
+      <WeatherInfo />
+      <DaysCards />
+      <Form />
     </div>
   </div>
 </template>

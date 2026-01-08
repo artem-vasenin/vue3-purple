@@ -1,9 +1,11 @@
 <script setup>
-  const { info, selected } = defineProps(['info', 'selected']);
-  const emit = defineEmits(['setSelected']);
+  import { inject } from 'vue';
+
+  const selected = inject('selectedCardId');
+  const weather = inject('weather');
 
   const setCard = (val) => {
-    emit('setSelected', val);
+    selected.value = val;
   };
 
   const getDay = (str) => {
@@ -15,7 +17,7 @@
 <template>
   <div class="wrap">
     <div
-      v-for="(i, idx) in info?.forecast?.forecastday"
+      v-for="(i, idx) in weather?.forecast?.forecastday"
       :key="idx"
       :class="selected === idx ? 'card--active' : ''" 
       class="card" 

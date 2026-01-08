@@ -1,23 +1,17 @@
 <script setup>
-  import { ref } from 'vue';
+  import { ref, inject } from 'vue';
   import Button from './Button.vue';
 
   const showForm = ref(false);
   const city = defineModel('city', { type: String, required: true });
+  const selectedCity = inject('selectedCity');
 
   const openForm = () => {
     showForm.value = !showForm.value;
   };
 
-  // const emit = defineEmits(['setCity']); // Простой вариант без валидации
-  const emit = defineEmits({
-    setCity(payload) {
-      return !!payload;
-    },
-  });
-
   const selectCity = () => {
-    emit('setCity', city.value);
+    selectedCity.value = city.value;
     city.value = '';
     showForm.value = false;
   };
