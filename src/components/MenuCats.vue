@@ -1,27 +1,14 @@
 <script setup lang="ts">
+  import { type IMenu } from '../types';
 
+  const { list } = defineProps<{list: IMenu[]}>();
 </script>
 
 <template>
   <nav class="nav">
     <ul class="nav-list">
-      <li class="nav-item">
-        <a href="" class="nav-link">Спорт</a>
-      </li>
-      <li class="nav-item">
-        <a href="" class="nav-link">Программирование</a>
-      </li>
-      <li class="nav-item">
-        <a href="" class="nav-link">Работа</a>
-      </li>
-      <li class="nav-item">
-        <a href="" class="nav-link">Семья</a>
-      </li>
-      <li class="nav-item nav-item--active">
-        <a href="" class="nav-link">Развлечения</a>
-      </li>
-      <li class="nav-item">
-        <a href="" class="nav-link">Поездки</a>
+      <li v-for="(i, idx) in list" :key="idx" class="nav-item">
+        <a :href="i.url" class="nav-link">{{ i.name }}</a>
       </li>
     </ul>
   </nav>

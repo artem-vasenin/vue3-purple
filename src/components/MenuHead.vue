@@ -3,6 +3,10 @@
   import { inject } from 'vue';
 
   const profile = inject(profileProvide);
+
+  if (!profile) {
+    throw new Error('Profile not provided');
+  }
 </script>
 
 <template>
