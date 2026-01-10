@@ -1,55 +1,24 @@
 <script setup lang="ts">
-  import { onMounted, provide, ref } from 'vue';
-
-  import { profileProvide } from './constants';
   import MenuHead from './components/MenuHead.vue';
   import MenuCats from './components/MenuCats.vue';
   import IconDelete from './components/IconDelete.vue';
   import IconEdit from './components/IconEdit.vue';
-  import { type IMenu, type IProfile, type IProfileAPI } from './types';
-import { API_ROUTES } from './api';
-
-  const profile = ref<IProfile>({
-    avatar: 'https://placehold.co/100x100?text=G&color=gray',
-    name: 'Гость',
-    isOnline: false,
-  });
-  const menu = ref<IMenu[]>([
-    { name: 'Спорт', url: 'sport' },
-    { name: 'Программирование', url: 'dev' },
-    { name: 'Семья', url: 'family' },
-    { name: 'Работа', url: 'job' },
-    { name: 'Развлечения', url: 'trulala' },
-    { name: 'Отдых', url: 'rest' },
-  ]);
-
-  provide(profileProvide, profile);
-
-  const getProfileName = async (): Promise<string> => {
-    const data: IProfileAPI = await (await fetch(API_ROUTES.profile)).json();
-    return data.name;
-  };
-
-  onMounted(async () => {
-    const name = await getProfileName();
-    profile.value.name = name;
-  })
 </script>
 
 <template>
   <div class="app">
     <aside class="aside">
       <MenuHead />
-      <MenuCats :list="menu" />
+      <MenuCats />
     </aside>
     <main class="main">
       <header class="header">
         <div class="title">Разработка</div>
         <div class="actions">
-          <button class="action delete-action">
+          <button class="action dark-round-btn delete-action">
             <IconDelete />
           </button>
-          <button class="action edit-action">
+          <button class="action dark-round-btn edit-action">
             <IconEdit />
           </button>
         </div>
@@ -105,20 +74,6 @@ import { API_ROUTES } from './api';
     .actions {
       display: flex;
       gap: 10px;
-    }
-    .action {
-      width: 32px;
-      height: 32px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background-color: var(--color-dark);
-      border: none;
-      border-radius: 50%;
-      &:hover {
-        opacity: .7;
-        cursor: pointer;
-      }
     }
   }
   .filters {

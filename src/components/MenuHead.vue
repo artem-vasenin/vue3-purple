@@ -1,22 +1,22 @@
 <script setup lang="ts">
-  import { profileProvide } from '@/constants';
-  import { inject } from 'vue';
+  import { useProfileStore } from '@/store/profile';
+  import { onMounted } from 'vue';
 
-  const profile = inject(profileProvide);
+  const store = useProfileStore();
 
-  if (!profile) {
-    throw new Error('Profile not provided');
-  }
+  onMounted(async () => {
+    await store.getProfile();
+  })
 </script>
 
 <template>
 <div class="wrap">
   <div class="icon-block">
-    <img :src="profile?.avatar || ''" class="icon" alt="icon">
-    <div class="status" :class="profile?.isOnline ? 'online' : ''"/>
+    <img :src="store.profile?.avatar || ''" class="icon" alt="icon">
+    <div class="status" :class="store.profile?.isOnline ? 'online' : ''" />
   </div>
-  <div v-if="profile" class="name">
-    Привет, <b>{{ profile?.name }}</b>!
+  <div v-if="store.profile" class="name">
+    Привет, <b>{{ store.profile?.name }}</b>!
   </div>
 </div>
 </template>

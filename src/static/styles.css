@@ -34,3 +34,18 @@ img {
   max-width: 100%;
   height: auto;
 }
+
+.dark-round-btn {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--color-dark);
+  border: none;
+  border-radius: 50%;
+  &:hover {
+    opacity: .7;
+    cursor: pointer;
+  }
+}
