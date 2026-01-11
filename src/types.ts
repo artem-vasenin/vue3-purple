@@ -11,14 +11,16 @@ export interface ICaregory {
 }
 
 export interface IBookmark {
-  id?: number;
-  name: string;
+  id: number;
+  title: string;
   url: string;
+  category_id: number;
+  image: string;
 }
 
 export interface IBookmarksStore {
   categories: ICaregory[],
-  category: ICaregory | null,
+  sort: 'title' | 'date',
   bookmarks: IBookmark[],
 }
 

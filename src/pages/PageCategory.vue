@@ -1,27 +1,31 @@
 <script setup lang="ts">
-// import { useRoute } from 'vue-router';
+import { watch } from 'vue';
+import { useRoute } from 'vue-router';
 
 import CategoryFilters from '../components/CategoryFilters.vue';
 import CategoryHeader from '../components/CategoryHeader.vue';
-// import { useBookmarksStore } from '@/store/bookmarks';
-// import { watch } from 'vue';
+import { useBookmarksStore } from '@/store/bookmarks';
+import BmCard from '@/components/BmCard.vue';
 
-// const route = useRoute();
-// const store = useBookmarksStore();
+  const route = useRoute();
+  const store = useBookmarksStore();
 
-// watch(() => ({
-//   alias: route.params.alias,
-//   categories: store.bookmarks.categories,
-// }), () => {
-//   console.log(store.getCategory(route.params.alias));
-
-// });
+  watch(() => [route.params.alias], async ([alias]) => {
+    const cat = store.getCategory(alias);
+    if (cat?.id) {
+      await store.getBookmarks(cat.id);
+    }
+  }, {immediate: true});
 </script>
 
 <template>
   <CategoryHeader />
   <CategoryFilters />
   <div class="content">
-    Content
+    <div class="list">
+      <div v-for="i in store.bookmarks.bookmarks" :key="i.id" class="item">
+        <BmCard :data="i"/>
+      </div>
+    </div>
   </div>
 </template>

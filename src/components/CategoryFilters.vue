@@ -1,7 +1,29 @@
+<script setup lang="ts">
+import { useBookmarksStore } from '@/store/bookmarks';
+import { useRoute } from 'vue-router';
+
+  const store = useBookmarksStore();
+  const route = useRoute();
+
+  const onSort = async (sort: 'title' | 'date') => {
+    store.setSort(sort);
+    const cat = store.getCategory(route.params.alias);
+    if (cat?.id) {
+      await store.getBookmarks(cat.id);
+    }
+  };
+</script>
+
 <template>
   <div class="filters">
-    <button class="filter filter--active">По дате</button>
-    <button class="filter">По названию</button>
+    <button
+      @click="onSort('date')"
+      class="filter"
+      :class="store.bookmarks.sort === 'date' ? 'filter--active' : ''">По дате</button>
+    <button
+      @click="onSort('title')"
+      class="filter"
+      :class="store.bookmarks.sort === 'title' ? 'filter--active' : ''">По названию</button>
   </div>
 </template>
 

@@ -7,7 +7,7 @@ import { ref } from "vue";
 export const useBookmarksStore = defineStore('bookmarks', () => {
   const bookmarks = ref<IBookmarksStore>({
     categories: [],
-    category: null,
+    sort: 'title',
     bookmarks: [],
   });
 
@@ -40,10 +40,14 @@ export const useBookmarksStore = defineStore('bookmarks', () => {
     return data;
   };
 
-  const getBookmarks = async (catId: number, sort: 'title' | 'date' = 'title'): Promise<void> => {
-    const { data } = await http.get<IBookmark[]>(`${API_ROUTES.CATEGORIES}/${catId}/bookmarks`, { params: { sort } });
+  const getBookmarks = async (catId: number): Promise<void> => {
+    const { data } = await http.get<IBookmark[]>(`${API_ROUTES.CATEGORIES}/${catId}/bookmarks`, { params: { sort: bookmarks.value.sort } });
     bookmarks.value.bookmarks = data;
   };
 
-  return { bookmarks, getCategories, addCategory, getCategory, delCategory, editCategory, getBookmarks };
+  const setSort = (sort: 'title' | 'date'): void => {
+    bookmarks.value.sort = sort;
+  }
+
+  return { bookmarks, getCategories, addCategory, getCategory, delCategory, editCategory, getBookmarks, setSort };
 });
