@@ -38,7 +38,7 @@
   <nav class="nav">
     <ul class="nav-list">
       <li v-for="(i, idx) in store.bookmarks.categories" :key="idx" class="nav-item">
-        <a :href="`/${i.alias}`" class="nav-link">{{ i.name }}</a>
+        <RouterLink :to="`/category/${i.alias}`" class="nav-link">{{ i.name }}</RouterLink>
       </li>
     </ul>
   </nav>
