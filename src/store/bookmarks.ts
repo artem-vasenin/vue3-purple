@@ -1,5 +1,5 @@
 import { API_ROUTES, http } from "@/api";
-import type { IBookmarksStore, ICaregory } from "@/types";
+import type { IBookmark, IBookmarksStore, ICaregory } from "@/types";
 import { defineStore } from "pinia";
 import { ref } from "vue";
 
@@ -30,5 +30,20 @@ export const useBookmarksStore = defineStore('bookmarks', () => {
     return;
   };
 
-  return { bookmarks, getCategories, addCategory, getCategory };
+  const delCategory = async (catId: number): Promise<ICaregory> => {
+    const { data } = await http.delete<ICaregory>(`${API_ROUTES.CATEGORIES}/${catId}`);
+    return data;
+  };
+
+  const editCategory = async (dto: ICaregory): Promise<ICaregory> => {
+    const { data } = await http.put(`${API_ROUTES.CATEGORIES}/${dto.id}`, dto);
+    return data;
+  };
+
+  const getBookmarks = async (catId: number, sort: 'title' | 'date' = 'title'): Promise<void> => {
+    const { data } = await http.get<IBookmark[]>(`${API_ROUTES.CATEGORIES}/${catId}/bookmarks`, { params: { sort } });
+    bookmarks.value.bookmarks = data;
+  };
+
+  return { bookmarks, getCategories, addCategory, getCategory, delCategory, editCategory, getBookmarks };
 });

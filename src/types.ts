@@ -5,11 +5,13 @@ export interface IProfileStore {
 }
 
 export interface ICaregory {
+  id?: number;
   name: string;
   alias: string;
 }
 
 export interface IBookmark {
+  id?: number;
   name: string;
   url: string;
 }

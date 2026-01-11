@@ -53,3 +53,18 @@ img {
     cursor: pointer;
   }
 }
+.dark-text-btn {
+  height: 32px;
+  padding: 0 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--color-dark);
+  border: none;
+  border-radius: 16px;
+  color: white;
+  &:hover {
+    opacity: .7;
+    cursor: pointer;
+  }
+}
