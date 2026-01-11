@@ -23,5 +23,12 @@ export const useBookmarksStore = defineStore('bookmarks', () => {
     return data;
   }
 
-  return { bookmarks, getCategories, addCategory };
+  const getCategory = (alias?: string | string[]): ICaregory | undefined => {
+    if (alias && typeof alias == 'string') {
+      return bookmarks.value.categories.find(c => c.alias === alias);
+    }
+    return;
+  };
+
+  return { bookmarks, getCategories, addCategory, getCategory };
 });

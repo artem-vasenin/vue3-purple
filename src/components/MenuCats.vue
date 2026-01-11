@@ -38,7 +38,11 @@
   <nav class="nav">
     <ul class="nav-list">
       <li v-for="(i, idx) in store.bookmarks.categories" :key="idx" class="nav-item">
-        <RouterLink :to="`/category/${i.alias}`" class="nav-link">{{ i.name }}</RouterLink>
+        <RouterLink
+         :to="`/category/${i.alias}`"
+         exact-active-class="active"
+         class="nav-link"
+        >{{ i.name }}</RouterLink>
       </li>
     </ul>
   </nav>
@@ -76,13 +80,6 @@
     display: flex;
     width: 100%;
     align-items: center;
-
-    &.nav-item--active {
-      .nav-link {
-        font-size: 24px;
-        font-weight: 700;
-      }
-    }
   }
   .nav-link {
     font-weight: 400;
@@ -93,7 +90,7 @@
     text-decoration: none;
     transition: all .3s;
 
-    &:hover {
+    &:hover, &.active {
       font-size: 24px;
       font-weight: 700;
       transition: all .3s;
