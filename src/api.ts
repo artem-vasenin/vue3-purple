@@ -5,6 +5,7 @@ export const API_ROUTES = {
   PROFILE: 'profile',
   CATEGORIES: 'categories',
   BOOKMARKS: 'bookmarks',
+  AUTH: 'auth',
 }
 
 export const http = axios.create({

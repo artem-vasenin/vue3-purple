@@ -1,22 +1,34 @@
 <script setup lang="ts">
-  import { useProfileStore } from '@/store/profile';
+  import { useAuthStore } from '@/store/auth';
+import { useProfileStore } from '@/store/profile';
   import { onMounted } from 'vue';
+import { useRouter } from 'vue-router';
 
-  const store = useProfileStore();
+  const profileStore = useProfileStore();
+  const authStore = useAuthStore();
+  const router = useRouter();
+
+  const logout = () => {
+    authStore.clearToken();
+    router.push({name: 'auth'});
+  };
 
   onMounted(async () => {
-    await store.getProfile();
+    await profileStore.getProfile();
   })
 </script>
 
 <template>
 <div class="wrap">
   <div class="icon-block">
-    <img :src="store.profile?.avatar || ''" class="icon" alt="icon">
-    <div class="status" :class="store.profile?.isOnline ? 'online' : ''" />
+    <img :src="profileStore.profile?.avatar || ''" class="icon" alt="icon">
+    <div class="status" :class="profileStore.profile?.isOnline ? 'online' : ''" />
   </div>
-  <div v-if="store.profile" class="name">
-    Привет, <b>{{ store.profile?.name }}</b>!
+  <div v-if="profileStore.profile" class="name">
+    Привет, <b>{{ profileStore.profile?.name }}</b>!
+  </div>
+  <div class="logout">
+    <button @click="logout" class="logout-btn">Выход</button>
   </div>
 </div>
 </template>
@@ -67,6 +79,22 @@
     font-size: 18px;
     line-height: 1;
     letter-spacing: 2%;
+    margin-bottom: 20px;
+  }
+  .logout-btn {
     margin-bottom: 40px;
+    border: 1px solid var(--color-dark);
+    background-color: none;
+    width: 100%;
+    border-radius: 4px;
+    height: 26px;
+    background-color: transparent;
+    text-transform: uppercase;
+
+    &:hover {
+      background-color: var(--color-dark);
+      color: white;
+      cursor: pointer;
+    }
   }
 </style>

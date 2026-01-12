@@ -9,6 +9,7 @@ export const useProfileStore = defineStore('profile', () => {
   const profile = ref<IProfileStore>({
     avatar: 'https://placehold.co/100x100?text=G&color=gray',
     name: 'Гость',
+    email: '',
     isOnline: false,
   });
 

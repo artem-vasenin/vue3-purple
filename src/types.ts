@@ -1,6 +1,7 @@
 export interface IProfileStore {
   avatar: string;
   name: string;
+  email: string;
   isOnline: boolean;
 }
 
@@ -30,5 +31,20 @@ export interface IAddBookmark {
 }
 
 export interface IProfileAPI {
+  name: string;
+}
+
+export interface ILogin {
+  email: string;
+  password: string;
+}
+
+export interface ILoginResponce {
+  token?: string;
+  error?: string;
+}
+
+export interface IAuth {
+  email: string;
   name: string;
 }

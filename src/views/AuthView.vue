@@ -3,21 +3,35 @@ import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 
 import TextInput from '@/components/TextInput.vue';
+import { useAuthStore } from '@/store/auth';
+import type { ILogin } from '@/types';
 
   const router = useRouter();
+  const store = useAuthStore();
 
-  const email = ref<string>('');
-  const passwd = ref<string>('');
+  const form = ref<ILogin>({email: '', password: ''});
+
+  const onSubmit = async (e: Event): Promise<void> => {
+    e.preventDefault();
+    if (!form.value.email || !form.value.password) return;
+    try {
+      await store.login(form.value);
+      form.value = {email: '', password: ''};
+      router.push({name: 'cat'});
+    } catch (e) {
+      console.error(e);
+    }
+  };
 </script>
 
 <template>
   <div class="wrap">
     <div class="title">Bookmarkly</div>
-    <div class="form">
-      <TextInput v-model="email" placeholder="Email" />
-      <TextInput v-model="passwd" placeholder="Password" />
-    </div>
-    <button @click="router.push('/category')" class="action">Вход</button>
+    <form @submit="onSubmit" class="form">
+      <TextInput v-model="form.email" placeholder="Email" autocomplete="false" />
+      <TextInput v-model="form.password" placeholder="Password" type="password" autocomplete="false"/>
+      <button type="submit" class="action">Вход</button>
+    </form>
   </div>
 </template>
 
@@ -36,6 +50,10 @@ import TextInput from '@/components/TextInput.vue';
     letter-spacing: 2%;
     margin-bottom: 50px;
   }
+  .form {
+    text-align: center;
+    max-width: 400px;
+  }
   .action {
     height: 50px;
     width: 160px;
@@ -44,7 +62,7 @@ import TextInput from '@/components/TextInput.vue';
     background-color: var(--color-dark);
     color: white;
     cursor: pointer;
-    display: flex;
+    display: inline-flex;
     justify-content: center;
     align-items: center;
     font-weight: 400;
