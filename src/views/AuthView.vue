@@ -1,12 +1,22 @@
 <script setup lang="ts">
+import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 
+import TextInput from '@/components/TextInput.vue';
+
   const router = useRouter();
+
+  const email = ref<string>('');
+  const passwd = ref<string>('');
 </script>
 
 <template>
   <div class="wrap">
     <div class="title">Bookmarkly</div>
+    <div class="form">
+      <TextInput v-model="email" placeholder="Email" />
+      <TextInput v-model="passwd" placeholder="Password" />
+    </div>
     <button @click="router.push('/category')" class="action">Вход</button>
   </div>
 </template>
@@ -41,6 +51,7 @@ import { useRouter } from 'vue-router';
     font-size: 18px;
     line-height: 100%;
     letter-spacing: 2%;
+    margin-top: 20px;
 
     &:hover {
       opacity: .8;

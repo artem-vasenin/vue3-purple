@@ -1,5 +1,5 @@
 import { API_ROUTES, http } from "@/api";
-import type { IBookmark, IBookmarksStore, ICaregory } from "@/types";
+import type { IAddBookmark, IBookmark, IBookmarksStore, ICaregory } from "@/types";
 import { defineStore } from "pinia";
 import { ref } from "vue";
 
@@ -49,5 +49,26 @@ export const useBookmarksStore = defineStore('bookmarks', () => {
     bookmarks.value.sort = sort;
   }
 
-  return { bookmarks, getCategories, addCategory, getCategory, delCategory, editCategory, getBookmarks, setSort };
+  const addBookmark = async (dto: IAddBookmark): Promise<IBookmark> => {
+    const { data } = await http.post<IBookmark>(API_ROUTES.BOOKMARKS, dto);
+    return data;
+  };
+
+  const delBookmark = async (id: number): Promise<IBookmark> => {
+    const { data } = await http.delete(`${API_ROUTES.BOOKMARKS}/${id}`);
+    return data;
+  }
+
+  return {
+    bookmarks,
+    getCategories,
+    addCategory,
+    getCategory,
+    delCategory,
+    editCategory,
+    getBookmarks,
+    addBookmark,
+    delBookmark,
+    setSort,
+  };
 });

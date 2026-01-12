@@ -24,6 +24,11 @@ export interface IBookmarksStore {
   bookmarks: IBookmark[],
 }
 
+export interface IAddBookmark {
+ category_id: number;
+ url: string;
+}
+
 export interface IProfileAPI {
   name: string;
 }
