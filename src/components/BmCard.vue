@@ -1,11 +1,16 @@
 <script setup lang="ts">
+import { ref } from 'vue';
+
 import type { IBookmark } from '@/types';
 import IconDelete from './IconDelete.vue';
 import IconLink from './IconLink.vue';
 import { useBookmarksStore } from '@/store/bookmarks';
+import PopupConfirm from './PopupConfirm.vue';
 
 const props = defineProps<{data: IBookmark}>();
 const store = useBookmarksStore();
+
+const isOpen = ref<boolean>(false);
 
 const delBm = async (): Promise<void> => {
   await store.delBookmark(props.data.id);
@@ -20,13 +25,20 @@ const delBm = async (): Promise<void> => {
     </div>
     <div class="title">{{ props.data.title }}</div>
     <div class="actions">
-      <button @click="delBm" class="action action--del">
+      <button @click="isOpen = !isOpen" class="action action--del">
         <IconDelete />
       </button>
       <a :href="data.url" target="_blank" class="action action--link">
         <IconLink />
       </a>
     </div>
+
+    <PopupConfirm
+      text="Точно удаляем?"
+      :is-open="isOpen"
+      @cancel="isOpen = !isOpen"
+      @confirm="delBm"
+    />
   </div>
 </template>
 

@@ -5,12 +5,14 @@
   import IconDelete from './IconDelete.vue';
   import IconEdit from './IconEdit.vue';
   import { useBookmarksStore } from '@/store/bookmarks';
+  import PopupConfirm from '@/components/PopupConfirm.vue';
 
   const route = useRoute();
   const router = useRouter();
   const store = useBookmarksStore();
 
   const isEdit = ref(false);
+  const isConfirm = ref(false);
   const title = ref('');
 
   const category = computed(() => store.getCategory(route.params.alias));
@@ -64,10 +66,17 @@
       <button v-else @click="onSave" class="action dark-text-btn save-action">
         Сохранить
       </button>
-      <button @click="onDel" class="action dark-round-btn delete-action">
+      <button @click="isConfirm = !isConfirm" class="action dark-round-btn delete-action">
         <IconDelete />
       </button>
     </div>
+
+    <PopupConfirm
+      text="Точно удаляем?"
+      :is-open="isConfirm"
+      @cancel="isConfirm = !isConfirm"
+      @confirm="onDel"
+    />
   </header>
 </template>
 

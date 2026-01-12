@@ -2,7 +2,6 @@
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 
-import TextInput from '@/components/TextInput.vue';
 import { useAuthStore } from '@/store/auth';
 import type { ILogin } from '@/types';
 

@@ -1,15 +1,26 @@
 <script setup lang="ts">
-import { watch } from 'vue';
+import { defineAsyncComponent, watch } from 'vue';
 import { useRoute } from 'vue-router';
 
-import CategoryFilters from '../components/CategoryFilters.vue';
-import CategoryHeader from '../components/CategoryHeader.vue';
+import CategoryFilters from '@/components/CategoryFilters.vue';
 import { useBookmarksStore } from '@/store/bookmarks';
 import BmCard from '@/components/BmCard.vue';
 import BmForm from '@/components/BmForm.vue';
+import IconAdd from '@/components/IconAdd.vue';
+import IconDelete from '@/components/IconDelete.vue';
 
   const route = useRoute();
   const store = useBookmarksStore();
+
+  const CategoryHeader = defineAsyncComponent({
+    loader: async () => {
+      return import('@/components/CategoryHeader.vue');
+    },
+    loadingComponent: IconAdd,
+    errorComponent: IconDelete,
+    delay: 200,
+    timeout: 3000,
+  });
 
   watch(() => [route.params.alias], async ([alias]) => {
     const cat = store.getCategory(alias);
