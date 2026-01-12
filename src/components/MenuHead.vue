@@ -1,10 +1,7 @@
 <script setup lang="ts">
   import { useAuthStore } from '@/store/auth';
-import { useProfileStore } from '@/store/profile';
-  import { onMounted } from 'vue';
-import { useRouter } from 'vue-router';
+  import { useRouter } from 'vue-router';
 
-  const profileStore = useProfileStore();
   const authStore = useAuthStore();
   const router = useRouter();
 
@@ -12,20 +9,16 @@ import { useRouter } from 'vue-router';
     authStore.clearToken();
     router.push({name: 'auth'});
   };
-
-  onMounted(async () => {
-    await profileStore.getProfile();
-  })
 </script>
 
 <template>
 <div class="wrap">
   <div class="icon-block">
-    <img :src="profileStore.profile?.avatar || ''" class="icon" alt="icon">
-    <div class="status" :class="profileStore.profile?.isOnline ? 'online' : ''" />
+    <img :src="authStore.auth.avatar" class="icon" alt="icon">
+    <div class="status" :class="authStore.auth.isOnline ? 'online' : ''" />
   </div>
-  <div v-if="profileStore.profile" class="name">
-    Привет, <b>{{ profileStore.profile?.name }}</b>!
+  <div v-if="authStore.auth.name" class="name">
+    Привет, <b>{{ authStore.auth.name }}</b>!
   </div>
   <div class="logout">
     <button @click="logout" class="logout-btn">Выход</button>

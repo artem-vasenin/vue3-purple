@@ -48,3 +48,11 @@ export interface IAuth {
   email: string;
   name: string;
 }
+
+export interface IAuthStore {
+  login: string;
+  name: string;
+  token: string;
+  isOnline: boolean;
+  avatar: string;
+}
