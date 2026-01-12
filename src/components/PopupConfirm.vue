@@ -11,18 +11,28 @@
 </script>
 
 <template>
-  <div v-if="props.isOpen" class="overlay">
-    <div class="popup">
-      <div class="title">{{ props.text }}</div>
-      <div class="actions">
-        <button @click="emit('cancel')" class="action action--cancel">Нет</button>
-        <button @click="emit('confirm')" class="action action-confirm">Да</button>
+  <Transition name="fade">
+    <Teleport to="body">
+      <div v-if="props.isOpen" class="overlay">
+        <div class="popup">
+          <div class="title">{{ props.text }}</div>
+          <div class="actions">
+            <button @click="emit('cancel')" class="action action--cancel">Нет</button>
+            <button @click="emit('confirm')" class="action action-confirm">Да</button>
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
+    </Teleport>
+  </Transition>
 </template>
 
 <style scoped>
+  .fade-enter-from, .fade-leave-to {
+    opacity: 0;
+  }
+  .fade-enter-active, .fade-leave-active {
+    transition: opacity .5s;
+  }
   .overlay {
     position: fixed;
     top: 0;
